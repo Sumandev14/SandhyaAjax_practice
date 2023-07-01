@@ -1,0 +1,17 @@
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Repository\bin\Debug\sandhya_27.Repository.dll
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Repository\bin\Debug\sandhya_27.Repository.pdb
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Repository\obj\Debug\sandhya_27.Repository.csproj.CoreCompileInputs.cache
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Repository\obj\Debug\sandhya_27.Repository.dll
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Repository\obj\Debug\sandhya_27.Repository.pdb
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Repository\bin\Debug\sandhya_27.Repository.dll.config
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Repository\bin\Debug\EntityFramework.dll
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Repository\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Repository\bin\Debug\sandhya_27.Models.dll
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Repository\bin\Debug\sandhya_27.Models.pdb
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Repository\bin\Debug\sandhya_27.Models.dll.config
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Repository\bin\Debug\EntityFramework.xml
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Repository\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Repository\obj\Debug\sandhya_27.Repository.csproj.AssemblyReference.cache
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Repository\obj\Debug\sandhya_27.Repository.csproj.CopyComplete
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Repository\bin\Debug\sandhya_27.Helpers.dll
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Repository\bin\Debug\sandhya_27.Helpers.pdb

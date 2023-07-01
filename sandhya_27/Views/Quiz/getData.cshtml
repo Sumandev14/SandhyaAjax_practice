@@ -1,0 +1,186 @@
+﻿
+<form>
+    <br />
+    <br />
+    <div id="AddQuiz" class="btn btn-info">StartQuiz</div>
+    <div id="DivSub"></div>
+
+    <div id="mainDiv">
+        <div id="Question"></div>
+
+        <div id="option">
+            <input type="radio" id="Radio1" name="action" value="update">
+            <label for="Radio"></label>
+            <br />
+
+            <input type="radio" id="Radio2" name="action" value="update">
+            <label for="Radio"></label>
+            <br />
+
+            <input type="radio" id="Radio3" name="action" value="update">
+            <label for="Radio"></label>
+            <br />
+
+            <input type="radio" id="Radio4" name="action" value="update">
+            <label for="Radio"></label>
+
+        </div>
+
+        <a class="btn btn-info" id="nextId">Next</a>
+        <a class="btn btn-dark" id="skipId">Skip</a>
+    </div>
+
+    <div id="ResultId" class="container text-center">
+        <h3>Result</h3>
+        <br />
+        <br />
+        <label id="TotalQuistionId"></label>
+        <br />
+        <label id="AttempQuistion"></label>
+        <br />
+        <label id="SkipQuistion"></label>
+        <br />
+        <label id="rightQuistion"></label>
+        <br />
+        <label id="WrongQuistion"></label>
+        <br />
+       <label id="result"></label>
+        <br />
+        <label id="passFill"></label>
+        <br />
+        <br />
+        <label id="right1">1 Right Answer = 10 marks</label>
+        <br />
+        <label id="Wrong1">1 wrong answer = -5 marks</label>
+    </div>
+    <a class="btn btn-outline-success" id="resultSubmit">Submit</a>
+
+</form>
+<script>
+    $(document).ready(function () {
+        $("#AddQuiz").show();
+        $("#mainDiv").hide();
+        $("#ResultId").hide();
+        $("#resultSubmit").hide();
+
+        var question = [];
+        var Answer = [];
+        var CorrectAnswer = [];
+        var attemptedQuestions = 0;
+        var skipQuistion = 0;
+        function displayQuestion(index) {
+            var questionDiv = $("#Question");
+            questionDiv.text(question[index]);
+
+            var answerLabels = $("label[for^='Radio']");
+            var radioButtons = $("input[name='action']");
+            radioButtons.prop("checked", false);
+            radioButtons.change(function () {
+                radioButtons.not(this).prop("checked", false); 
+            });
+
+            for (var i = 0; i < 4; i++) {
+                answerLabels.eq(i).text(Answer[index * 4 + i]);
+                radioButtons.eq(i).val(i);
+            }
+            attemptedQuestions++;
+        }
+
+        $("#AddQuiz").click(function () {
+            $.get("/Quiz/GetQuestion", function (Quest) {
+                $.get("/Quiz/GetAnswer", function (Ans) {
+                    displayQA(Quest, Ans);
+                    displayQuestion(0);
+                });
+            });
+        });
+
+        function displayQA(Quest, Ans) {
+            $("#AddQuiz").hide();
+            $("#mainDiv").show();
+            $("#resultSubmit").hide();          
+            for (var i = 0; i < 11; i++) {
+                question.push(Quest[i].title);
+            }
+            for (var i = 0; i < 40; i++) {
+                Answer.push(Ans[i].Title);
+                CorrectAnswer.push(Ans[i].IsCorrect);
+            }
+            console.log(CorrectAnswer);
+            displayQuestion(0);
+        };
+
+        //next button
+        var currentQuestionIndex = 0;
+        var correctAns = 0;
+        var wrongAns = 0;
+        $("#nextId").click(function () {
+            var selectedAnswer = $("input[name='action']:checked").val();
+            console.log(selectedAnswer)
+            console.log(correctAnswer)
+            if (selectedAnswer !== undefined) {
+                var isCorrect = CorrectAnswer[currentQuestionIndex] == selectedAnswer;
+                if (isCorrect) {
+                    //total correct answer
+                    correctAns++;
+                } else {
+                    //total wrong anser
+                    wrongAns++;
+                }
+                console.log(isCorrect);
+                if (currentQuestionIndex < question.length - 1) {
+                    currentQuestionIndex++;
+                    displayQuestion(currentQuestionIndex);
+                }
+            } else {
+                alert("Please select an answer!");
+            }
+
+            if (currentQuestionIndex === question.length - 1) {
+                $("#nextId").hide();
+                $("#skipId").hide();
+                $("#resultSubmit").show();
+            }
+        })
+
+        //skip button
+        var skipQuistion = 0;
+        $("#skipId").click(function () {
+             if (currentQuestionIndex < question.length - 1) {
+                currentQuestionIndex++;
+                 displayQuestion(currentQuestionIndex);
+                 skipQuistion++;
+            }
+
+            if (currentQuestionIndex === question.length - 1) {
+                $("#nextId").hide();
+                $("#skipId").hide();
+                $("#resultSubmit").show();
+            }
+        })
+
+        $("#resultSubmit").click(function () {
+            //debugger
+            if (currentQuestionIndex === question.length - 1) {
+                //if (correctAns + wrongAns + skipQuistion === question.length) {
+                    $("#mainDiv").hide();
+                    $("#ResultId").show();
+                    $("#resultSubmit").hide();
+
+                    $("#TotalQuistionId").text("Total Questions: " + question.length);
+                    $("#AttempQuistion").text("Attempted Questions: " + (correctAns + wrongAns));
+                    $("#SkipQuistion").text("Skipped Questions: " + (question.length - (correctAns + wrongAns)));
+                    $("#rightQuistion").text("Correct Questions: " + correctAns);
+                    $("#WrongQuistion").text("Wrong Questions: " + wrongAns);
+
+                var score = (correctAns * 10) + (wrongAns * -5);
+                $("#result").text("Result: " + score);
+                if (score <= 40) {
+                    $("#passFill").text("Fail");
+                } else {
+                    $("#passFill").text("Pass")
+                }
+            }           
+        });
+    });
+</script>

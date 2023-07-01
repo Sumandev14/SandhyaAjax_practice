@@ -1,0 +1,315 @@
+﻿@model sandhya_27.Models.Models.stdentModel
+@using sandhya_27.Helpers.GlobalEnum
+
+@{
+    ViewBag.Title = "StudentView";
+}
+
+
+@using (Html.BeginForm("StudentView", "student", FormMethod.Post, new { id = "userTestForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>stdentModel</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", type = "password" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ConformPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ConformPassword, new { htmlAttributes = new { @class = "form-control", type = "password" } })
+                @Html.ValidationMessageFor(model => model.ConformPassword, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="radio">
+                    <label>
+                        @Html.RadioButtonFor(model => model.Gender, "Female", new { id = "genderFemale" })
+                        <label>Female</label>
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        @Html.RadioButtonFor(model => model.Gender, "Male", new { id = "genderMale" })
+                        <label>Male</label>
+                    </label>
+                </div>
+                @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @foreach (var subject in Enum.GetValues(typeof(Subjects)))
+                {
+                    <div class="checkbox">
+                        <label>
+                            @Html.CheckBox("SelectedSubjects", new { value = subject }) @subject
+                        </label>
+                    </div>
+                }
+                @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Role, EnumHelper.GetSelectList(typeof(stdEnum)), "-- Select Role --", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RoleType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="button" id="submitId" value="Create" class="btn btn-success">Submit</button>
+                <button type="button" value="Update" id="UpdateId" class="btn btn-default">Update</button>
+            </div>
+        </div>
+    </div>
+}
+
+@{
+    int totalPages = ViewBag.TotalPages ?? 0;
+    int currentPage = ViewBag.PageNumber ?? 1;
+    int displayPages = 5; // Specify the number of page links to display
+
+    if (totalPages > 1)
+    {
+        int startPage = currentPage - displayPages / 2;
+        int endPage = currentPage + displayPages / 2;
+
+        if (startPage < 1)
+        {
+            endPage += 1 - startPage;
+            startPage = 1;
+        }
+        if (endPage > totalPages)
+        {
+            startPage -= endPage - totalPages;
+            endPage = totalPages;
+        }
+        if (startPage < 1)
+        {
+            startPage = 1;
+        }
+
+        <ul class="pagination">
+            @if (currentPage > 1)
+            {
+                <li>@Html.ActionLink("Previous", "GetAllUser", new { PageNumber = currentPage - 1 })</li>
+            }
+
+            @for (int i = startPage; i <= endPage; i++)
+            {
+                <li>@Html.ActionLink(i.ToString(), "GetAllUser", new { PageNumber = i }, new { @class = currentPage == i ? "active" : "" })</li>
+            }
+
+            @if (currentPage < totalPages)
+            {
+                <li>@Html.ActionLink("Next", "GetAllUser", new { PageNumber = currentPage + 1 })</li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No records found.</p>
+    }
+}
+
+
+<table class="table table-bordered table-striped" id="tableId" onclick="TableForm()">
+    <thead>
+        <tr>
+            <th>UserName</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Mobile</th>
+            <th>Gender</th>
+            <th>Subject</th>
+            <th>Address</th>
+            <th>RoleType</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+
+<script>
+    $(document).ready(function () {
+        $(".field-validation-error").hide();
+        $("#submitId").show();
+        $("#UpdateId").hide();
+        TableForm(1);
+    })
+    //create form
+    $("#submitId").click(function () {
+        $.ajax({
+            url: "/Student/createStudent",
+            type: 'POST',
+            //data: $("#userTestForm").serialize()+'&IsDelete=1',
+            data: $("#userTestForm").serialize(),
+            dataType: 'json',
+            success: function (response) {
+                console.log(response.success);
+                console.log(response);
+                if (response) {
+                    console.log(response);
+                    alert("Created successfully!!!");
+                    TableForm();
+                    $("#userTestForm")[0].reset();
+                } else {
+                    $(".field-validation-error").show();
+                    alert("getting error. Please try again.");
+                }
+            }
+        })
+    })
+    //Get table list
+    function TableForm() {
+        $.ajax({
+            url: "/Student/GetList/",
+            type: "get",
+            dataType: "JSON",
+            success: function (data) {
+                $("#tableId tbody").empty();
+                $.each(data, function (index, x) {
+                    var tableRow = `<tr>
+                                     <td> ${x.UserName}  </td>
+                                     <td> ${x.Email}</td>
+                                     <td> ${x.Password}</td>
+                                     <td> ${x.Mobile}</td>
+                                     <td> ${x.Gender}</td>
+                                     <td> ${x.Subject}</td>
+                                     <td> ${x.Address}</td>
+                                     <td> ${x.RoleType}</td>
+                                     <td>
+                                        <button class="std-edit btn-primary" onclick="editStudent(${x.studentId})">Edit</button>
+                                        <button class="btn-danger std-delete" onclick="deleteStd(${x.studentId})" > Delete</button>
+                                     </td>
+                                </tr>`
+                    $('#tableId tbody').append(tableRow);
+                })
+            }
+        })
+    }
+
+    //get data for edit
+    function editStudent(id) {
+        $("#submitId").hide();
+        $("#UpdateId").show();
+        $.ajax({
+            url: "/Student/GetList/" + id,
+            type: "get",
+            dataType: 'JSON',
+            success: function (response) {
+                var data = response.find(function (x) {
+                    return x.studentId === id;
+                });
+                $("#UserName").val(data.UserName);
+                $("#Email").val(data.Email);
+                $("#Password").val(data.Password);
+                $("#Mobile").val(data.Mobile);
+                if (data.Gender === "Female") {
+                    $("#genderFemale").prop('checked', true);
+                } else if (data.Gender === "Male") {
+                    $("#genderMale").prop('checked', true);
+                };
+
+                $("input[name='SelectedSubjects[]']").prop('checked', false);
+
+                if (Array.isArray(data.Subject)) {
+                    Subject.forEach(function (Subject) {
+                        $("input[name='SelectedSubjects[]'][value='" + Subject + "']").prop('checked', true);
+                    });
+                } else if (data.Subject) {
+                    $("input[name='SelectedSubjects[]'][value='" + data.Subject + "']").prop('checked', true);
+                }
+
+                $("#Address").val(data.Address);
+                $("#Role").val(data.Role);
+            }
+        });
+        $("#UpdateId").click(function () {
+            console.log(id);
+            $.ajax({
+                url: "/Student/createStudent/" + id,
+                type: "post",
+                data: $("#userTestForm").serialize(),
+                dataType: 'json',
+                success: function (response) {
+                    $("#userTestForm")[0].reset();
+                    if (response) {
+                        alert("Form updated successFully!!!");
+                        TableForm();
+                    } else {
+                        alert("getting error while updating form!!");
+                    }
+                }
+            })
+        })
+    }
+
+    function deleteStd(id) {
+        $.ajax({
+            url: "/Student/deletestd/" + id,
+            type: "post",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                if (response) {
+                    alert("getting error while deleting user...");
+                } else {
+                    alert("User deleted successfully..!!");
+                    TableForm();
+                }
+            }
+        })
+    }
+</script>

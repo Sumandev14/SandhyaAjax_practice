@@ -1,0 +1,12 @@
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Helpers\bin\Debug\sandhya_27.Helpers.dll
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Helpers\bin\Debug\sandhya_27.Helpers.pdb
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Helpers\bin\Debug\sandhya_27.Models.dll
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Helpers\bin\Debug\EntityFramework.dll
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Helpers\bin\Debug\sandhya_27.Models.pdb
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Helpers\bin\Debug\sandhya_27.Models.dll.config
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Helpers\bin\Debug\EntityFramework.xml
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Helpers\obj\Debug\sandhya_27.Helpers.csproj.AssemblyReference.cache
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Helpers\obj\Debug\sandhya_27.Helpers.csproj.CoreCompileInputs.cache
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Helpers\obj\Debug\sandhya_27.Helpers.csproj.CopyComplete
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Helpers\obj\Debug\sandhya_27.Helpers.dll
+C:\Users\sit382\Desktop\SandhyaAjax_practice\sandhya_27.Helpers\obj\Debug\sandhya_27.Helpers.pdb

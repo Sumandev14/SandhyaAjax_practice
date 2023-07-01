@@ -1,0 +1,242 @@
+﻿@model sandhya_27.Models.Models.UserModel
+    @using sandhya_27.Helpers.GlobalEnum
+
+@{
+    ViewBag.Title = "adduser";
+}
+
+<h2>adduser</h2>
+
+<form id="addUserForm">
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>UserModel</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dateOfBirth, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dateOfBirth, new { htmlAttributes = new { @class = "form-control", type="date"} })
+                @Html.ValidationMessageFor(model => model.dateOfBirth, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.states, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.states, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.states, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.C_Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.C_Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.C_Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Role, EnumHelper.GetSelectList(typeof(UserEnum)), "-select RoleType-", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="submitBtn" type="button" value="Create" class="btn btn-default" />
+                <input id="UpdateBtn" type="button" value="Update" class="btn btn-outline-success" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+<table class="table table-bordered" id="tableId">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Date-Of-Birth</th>
+            <th>Mobile</th>
+            <th>Country</th>
+            <th>State</th>
+            <th>City</th>
+            <th>Email</th>
+            <th>Password</th>
+
+            <th>RoleName</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+
+<script>
+    $(document).ready(function () {
+        $("#submitBtn").show();
+        $("#UpdateBtn").hide();
+
+        $('#tableId tbody tr').remove();
+/*        alert("ok")*/
+        $.ajax({
+            method: 'GET',
+            url: "/Users/ViewalluSERS",
+            success: (data) => {
+                data.forEach(x => {
+                    var rows = "<tr>"
+                        + "<td>" + x.FirstName + "</td>"
+                        + "<td>" + x.LastName + "</td>"
+                        + "<td>" + x.dateOfBirth + "</td>"
+                        + "<td>" + x.Mobile + "</td>"
+                        + "<td>" + x.Country + "</td>"
+                        + "<td>" + x.states + "</td>"
+                        + "<td>" + x.City + "</td>"
+                        + "<td>" + x.Email + "</td>"
+                        + "<td>" + x.Password + "</td>"
+                        + "<td>" + x.RoleName + "</td>"
+                        + "<td> <a href='/Users/AddUser/" + x.StdId + "' class='edit-user' data-user-id='" + x.StdId + "'>Edit</a> | <a href='/Users/deleteId/" + x.StdId + "' >Delete</a></td>"
+                        + "</tr>";
+                    $('#tableId tbody').append(rows);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                alert("Error while retrieving data");
+            }
+        });
+
+        //for add the form
+        $("#submitBtn").click(function () {
+            $.ajax({
+                /*debugger*/
+                url: "/Users/adduser/",
+                type: 'POST',
+                data: $('#addUserForm').serialize(),
+                success: function (result) {
+                    console.log(result);
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            })
+        })
+
+        //for Edit the form
+        $(document).on("click", ".edit-user", function (event) {
+            $("#UpdateBtn").show();
+            $("#submitBtn").hide();
+            debugger
+            event.preventDefault();
+            var id = $(this).data("user-id");
+            console.log(id);
+            $.ajax({
+                url: "/Users/AddUser/" + id,
+                method: 'GET',
+                success: function (data) {
+                    $('#FirstName').val(data.FirstName);
+                    $('#LastName').val(data.LastName);
+                    $('#dateOfBirth').val(data.dateOfBirth);
+                    $('#Mobile').val(data.Mobile);
+                    $('#Country').val(data.Country);
+                    $('#states').val(data.states);
+                    $('#City').val(data.City);
+                    $('#Email').val(data.Email);
+                    $('#Password').val(data.Password);
+                    $('#Role').val(data.Role);
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText);
+                    alert("Error while retrieving user data");
+                }
+            });
+        });
+
+        $("#UpdateBtn").click(function () {
+            var id = $(this).data("user-id");
+
+            $.ajax({
+                url: "/Users/AddUser/" + id,
+                type: 'POST',
+                data: $('#addUserForm').serialize(),
+                success: function (result) {
+                    console.log(result);
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            })
+        })
+
+    });
+
+    
+</script>
+

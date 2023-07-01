@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Sandhya_380Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="student">
+    <Key>
+      <PropertyRef Name="StdId" />
+    </Key>
+    <Property Name="StdId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="dateOfBirth" Type="DateTime" Precision="0" />
+    <Property Name="Mobile" Type="Int64" />
+    <Property Name="Country" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="states" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="City" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Role" Type="Int32" />
+  </EntityType>
+  <EntityContainer Name="Sandhya_380Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="student" EntityType="Self.student" />
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,225 @@
+﻿@model sandhya_27.Models.Models.UserAddressModel
+    @using sandhya_27.Helpers.GlobalEnum
+
+@{
+    ViewBag.Title = "UserAddress";
+}
+
+<h2>UserAddress</h2>
+
+@using (Html.BeginForm("UserAddress", "UserAddress", FormMethod.Post, new{ id = "FormId"}))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>UserAddressModel</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Role, EnumHelper.GetSelectList(typeof(stdEnum)), "--select RoleType--", new { @class = "form-control"})
+                @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.CountryId, ViewBag.CountryList as SelectList, "-- Select Country --", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.StateId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.StateId, new SelectList(" "), "--Seletct State--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CityId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.CityId, new SelectList(" "), "--Select City--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CityId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" id="CreateId" value="Create" class="btn btn-default" />
+                <input type="submit" id="UpdateId" value="Update" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<table id="tableId" class="table table-bordered table-striped" onclick="tableForm()">
+    <thead>
+        <tr>
+            <th>UserName</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Roletype</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(".field-validation-error").hide();
+        $("#CreateId").show();
+        $("#UpdateId").hide();
+        tableForm(1);
+
+        $("#CountryId").change(function () {
+            $.get("/UserAddress/GetStateName", { CountryId: $("#CountryId").val() }, function (data) {
+                $("#StateId").empty();
+                $.each(data, function (index, row) {
+                    $("#StateId").append("<option value='" + row.StateId + "'>" + row.StateName + "</option>")
+                })
+                console.log(data);
+            })
+        })
+
+        $("#StateId").change(function () {
+            $.get("/UserAddress/getCityName", { StateId: $("#StateId").val() }, function (data) {
+                $("#CityId").empty();
+                $.each(data, function (index, row) {
+                    $("#CityId").append("<option value='" + row.Cityid +"'>" + row.CityName + "</option>")
+                })
+            });
+        })
+    })
+
+    $("#CreateId").click(function () {
+        $.ajax({
+            url: "/UserAddress/AddUserAddress",
+            type: 'post',
+            data: $("#FormId").serialize(),
+            dataType: 'json',
+            success: function (response) {
+                if (response) {
+                    alert("User created SuccessFully!!!");
+                } else {
+                    alert("User getting error, while created user!!!");
+                    $(".field-validation-error").show();
+                }
+            }
+        })
+    })
+    function tableForm() {
+        $.ajax({
+            url: "/UserAddress/GetUserList",
+            type: "get",
+            dataType: "JSON",
+            success: function (data) {
+                $("#tableId tbody").empty();
+                $.each(data, function (index, x) {
+                    var tableRow = `<tr>
+                                     <td> ${x.UserName}  </td>
+                                     <td> ${x.Email}</td>
+                                     <td> ${x.Password}</td>
+                                     <td> ${x.RoleType}</td>
+                                     <td>
+                                        <button class="std-edit btn-primary" onclick="editStudent(${x.UserId})">Edit</button>
+                                        <button class="btn-danger std-delete" onclick="deleteStd(${x.UserId})" > Delete</button>
+                                     </td>
+                                </tr>`
+                    $('#tableId tbody').append(tableRow);
+                })
+            }
+        })
+    }
+
+    //get data for edit
+    function editStudent(id) {
+        $("#CreateId").hide();
+        $("#UpdateId").show();
+        console.log(id);
+        $.ajax({
+            url: "/UserAddress/AddUserAddress/" + id,
+            type: "get",
+            dataType: 'JSON',
+            success: function (response) {
+                console.log(response);
+            
+                $("#UserName").val(response.UserName);
+                $("#Email").val(response.Email);
+                $("#Password").val(response.Password);
+                $("#Role").val(response.Role);
+                $("#CountryId").val(response.CountryId);
+                $("#StateId").val(response.StateId);
+                $("#CityId").val(response.CityId);
+            }
+        });
+        $("#UpdateId").click(function () {
+            $.ajax({
+                url: "/UserAddress/AddUserAddress/" + id,
+                type: "post",
+                data: $("#FormId").serialize(),
+                dataType: 'json',
+                success: function (response) {
+                    if (response) {
+                        alert("Form updated successFully!!!");
+                    } else {
+                        alert("getting error while updating form!!");
+                    }
+                }
+            })
+        })
+    }
+
+    function deleteStd(id) {
+        $.ajax({
+            url: "/UserAddress/DeleteUser/" + id,
+            type: "post",
+            dataType: "json",
+            success: function (response) {
+                if (response) {
+                    alert("getting error while deleting user...");
+                } else {
+                    alert("User deleted successfully..!!");
+                    TableForm();
+                }
+            }
+        })
+    }
+    
+</script>
